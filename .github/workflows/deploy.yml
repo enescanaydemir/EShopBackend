@@ -1,0 +1,36 @@
+name: Deploy EShop Api
+
+on:
+  push:
+    branches:
+      - main
+
+jobs: 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Repoyu klonla
+      - name: Checkout code
+        uses: actions/checkout@v3
+      # Klonladığın projeyi ubuntu sanal cihazında derle
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      # Derlenmiş projeyi publish ediyoruz
+      - name: Publish Web API
+        run: dotnet publish ./EShop.API/EShop.API.csproj -c Release -o ./publish
+
+      # Hazırlanmış dosyalarımızı sunucumuza FTP ile gönderiyoruz
+      - name: Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        with:
+          server: 89.252.183.170
+          port: 21
+          username: enescana
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: './publish/
+          server-dir: /eshopapi.enescanaydemir.com/
+      
