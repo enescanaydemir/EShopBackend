@@ -25,12 +25,12 @@ jobs:
 
       # Hazırlanmış dosyalarımızı sunucumuza FTP ile gönderiyoruz
       - name: Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 89.252.183.170
           port: 21
           username: enescana
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: './publish/
+          local-dir: ./publish/
           server-dir: /eshopapi.enescanaydemir.com/
       
